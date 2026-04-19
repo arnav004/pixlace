@@ -9,7 +9,7 @@ export default function Home() {
         display: "flex", alignItems: "center", justifyContent: "space-between",
         padding: "20px 40px", borderBottom: "1px solid #d4d4ce", background: "#ffffff"
       }}>
-        <span style={{ fontSize: 17, fontWeight: 500, letterSpacing: "-0.02em", fontFamily: "'DM Sans', sans-serif" }}>
+        <span style={{ fontSize: 24, fontWeight: 500, letterSpacing: "-0.02em", fontFamily: "'DM Sans', sans-serif" }}>
           Pixl<span style={{ color: "#3a3a38" }}>Ace</span>
         </span>
         <span style={{ fontSize: 13, color: "#4a4a48" }}>Exact dimensions. Exact file size. One step.</span>
