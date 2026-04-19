@@ -31,7 +31,7 @@ export default function Home() {
           color: "#1a1a18", marginBottom: 20, fontFamily: "'DM Sans', sans-serif"
         }}>
           Resize your photo to<br />
-          <em style={{ fontStyle: "italic", fontWeight: 300 }}>exact</em> dimensions &amp; file size
+          <em style={{ fontStyle: "italic", fontWeight: 300 }}>exact </em> dimensions &amp; file size
         </h1>
         <p style={{ fontSize: 17, color: "#4a4a48", maxWidth: 460, margin: "0 auto 48px", lineHeight: 1.6 }}>
           Set width, height, and target size all at once.
