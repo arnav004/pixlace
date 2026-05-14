@@ -125,7 +125,7 @@ export default function Resizer() {
   };
 
   return (
-    <div style={{ maxWidth: 660, margin: "0 auto", padding: "0 24px 80px" }}>
+    <div style={{ maxWidth: 660, margin: "0 auto", padding: "0 16px clamp(48px, 10vw, 80px)" }}>
 
       {!original ? (
         <div
@@ -134,9 +134,9 @@ export default function Resizer() {
           onDragLeave={() => setDragging(false)}
           onDrop={handleDrop}
           style={{
-            border: `1.5px dashed ${dragging ? "#1a1a18" : "#8a8a84"}`,
-            borderRadius: 16,
-            padding: "72px 32px",
+            border: `1.5px dashed ${dragging ? "#1a1a18" : "#c8c8c2"}`,
+            borderRadius: "clamp(12px, 3vw, 16px)",
+            padding: "clamp(48px, 12vw, 72px) clamp(20px, 5vw, 32px)",
             textAlign: "center",
             cursor: "pointer",
             background: dragging ? "#f5f5f3" : "#ffffff",
@@ -144,63 +144,64 @@ export default function Resizer() {
           }}
         >
           <div style={{
-            width: 52, height: 52, borderRadius: "50%",
+            width: "clamp(44px, 10vw, 52px)", height: "clamp(44px, 10vw, 52px)", borderRadius: "50%",
             background: "#fafaf8", border: "1px solid #d4d4ce",
             display: "flex", alignItems: "center", justifyContent: "center",
-            margin: "0 auto 20px"
+            margin: "0 auto clamp(16px, 4vw, 20px)"
           }}>
             <Upload size={20} color="#4a4a48" />
           </div>
-          <p style={{ fontSize: 16, fontWeight: 500, color: "#1a1a18", marginBottom: 6 }}>Drop your photo here</p>
-          <p style={{ fontSize: 14, color: "#4a4a48" }}>or click to browse - JPG, PNG, WEBP</p>
+          <p style={{ fontSize: "clamp(15px, 4vw, 16px)", fontWeight: 500, color: "#1a1a18", marginBottom: 6 }}>Drop your photo here</p>
+          <p style={{ fontSize: "clamp(13px, 3vw, 14px)", color: "#4a4a48" }}>or click to browse — JPG, PNG, WEBP</p>
         </div>
       ) : (
-        <div style={{ background: "#ffffff", border: "1px solid #d4d4ce", borderRadius: 16, overflow: "hidden" }}>
+        <div style={{ background: "#ffffff", border: "1px solid #d4d4ce", borderRadius: "clamp(12px, 3vw, 16px)", overflow: "hidden" }}>
 
           {/* File bar */}
           <div style={{
             display: "flex", alignItems: "center", justifyContent: "space-between",
-            padding: "14px 20px", borderBottom: "1px solid #d4d4ce", background: "#fafaf8"
+            padding: "12px 16px", borderBottom: "1px solid #d4d4ce", background: "#fafaf8",
+            flexWrap: "wrap", gap: 8
           }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <ImageIcon size={14} color="#4a4a48" />
-              <span style={{ fontSize: 13, color: "#4a4a48", fontFamily: "'DM Mono', monospace" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+              <ImageIcon size={14} color="#6b6b66" />
+              <span style={{ fontSize: "clamp(12px, 3vw, 13px)", color: "#4a4a48", fontFamily: "'DM Mono', monospace", wordBreak: "break-all" }}>
                 {fileName || "photo.jpg"}
               </span>
               <span style={{
-                fontSize: 11, color: "#4a4a48", background: "#ffffff",
-                border: "1px solid #d4d4ce", borderRadius: 4, padding: "2px 7px"
+                fontSize: "clamp(10px, 2.5vw, 11px)", color: "#6b6b66", background: "#ffffff",
+                border: "1px solid #d4d4ce", borderRadius: 4, padding: "2px 6px", whiteSpace: "nowrap"
               }}>
                 {original.width}×{original.height}px · {original.sizeKB} KB
               </span>
             </div>
-            <button onClick={reset} style={{ background: "none", border: "none", cursor: "pointer", color: "#4a4a48", display: "flex", padding: 4 }}>
+            <button onClick={reset} style={{ background: "none", border: "none", cursor: "pointer", color: "#6b6b66", display: "flex", padding: 4 }}>
               <X size={16} />
             </button>
           </div>
 
           {/* Settings */}
-          <div style={{ padding: "28px 24px 20px" }}>
-            <p style={{ fontSize: 11, fontWeight: 500, color: "#4a4a48", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 16 }}>
+          <div style={{ padding: "clamp(20px, 5vw, 28px) clamp(16px, 4vw, 24px) clamp(16px, 4vw, 20px)" }}>
+            <p style={{ fontSize: "clamp(10px, 2.5vw, 11px)", fontWeight: 500, color: "#6b6b66", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "clamp(12px, 3vw, 16px)" }}>
               Target specifications
             </p>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(85px, 1fr))", gap: "clamp(10px, 2.5vw, 12px)" }}>
               {[
                 { label: "Width (px)", value: targetW, setter: setTargetW },
                 { label: "Height (px)", value: targetH, setter: setTargetH },
-                { label: "File size (KB)", value: targetKB, setter: setTargetKB },
+                { label: "Size (KB)", value: targetKB, setter: setTargetKB },
               ].map(({ label, value, setter }) => (
                 <div key={label}>
-                  <label style={{ display: "block", fontSize: 12, color: "#4a4a48", marginBottom: 6 }}>{label}</label>
+                  <label style={{ display: "block", fontSize: "clamp(11px, 2.5vw, 12px)", color: "#4a4a48", marginBottom: 6 }}>{label}</label>
                   <input
                     type="number"
                     value={value}
                     min={1}
                     onChange={(e) => setter(Number(e.target.value))}
                     style={{
-                      width: "100%", padding: "10px 12px",
-                      border: "1px solid #d4d4ce", borderRadius: 10,
-                      fontSize: 15, fontFamily: "'DM Mono', monospace",
+                      width: "100%", padding: "clamp(8px, 2vw, 10px) clamp(10px, 2.5vw, 12px)",
+                      border: "1px solid #d4d4ce", borderRadius: "clamp(8px, 2vw, 10px)",
+                      fontSize: "clamp(14px, 3.5vw, 15px)", fontFamily: "'DM Mono', monospace",
                       background: "#fafaf8", color: "#1a1a18", outline: "none",
                     }}
                   />
@@ -212,10 +213,10 @@ export default function Resizer() {
               onClick={process}
               disabled={processing}
               style={{
-                marginTop: 20, width: "100%", padding: "13px 24px",
-                background: processing ? "#4a4a48" : "#1a1a18",
-                color: "#fff", border: "none", borderRadius: 10,
-                fontSize: 14, fontWeight: 500,
+                marginTop: "clamp(16px, 4vw, 20px)", width: "100%", padding: "clamp(11px, 3vw, 13px) clamp(20px, 5vw, 24px)",
+                background: processing ? "#6b6b66" : "#1a1a18",
+                color: "#fff", border: "none", borderRadius: "clamp(8px, 2vw, 10px)",
+                fontSize: "clamp(13px, 3vw, 14px)", fontWeight: 500,
                 cursor: processing ? "default" : "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
                 transition: "background 0.15s",
@@ -230,76 +231,76 @@ export default function Resizer() {
 
           {/* Output preview */}
           {output && (
-            <div style={{ borderTop: "1px solid #d4d4ce", padding: "24px" }}>
-              <div style={{ display: "flex", gap: 20, alignItems: "center", flexWrap: "wrap" }}>
+            <div style={{ borderTop: "1px solid #d4d4ce", padding: "clamp(20px, 5vw, 24px) clamp(16px, 4vw, 24px)" }}>
+              <div style={{ display: "flex", gap: "clamp(16px, 4vw, 20px)", alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
 
                 <div>
-                  <p style={{ fontSize: 11, color: "#4a4a48", marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.06em" }}>Before</p>
+                  <p style={{ fontSize: "clamp(10px, 2.5vw, 11px)", color: "#6b6b66", marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.06em" }}>Before</p>
                   <div style={{
-                    border: "1px solid #d4d4ce", borderRadius: 10,
-                    width: 120, height: 120, overflow: "hidden",
+                    border: "1px solid #d4d4ce", borderRadius: "clamp(8px, 2vw, 10px)",
+                    width: "clamp(100px, 25vw, 120px)", height: "clamp(100px, 25vw, 120px)", overflow: "hidden",
                     background: "#f5f5f3", display: "flex", alignItems: "center", justifyContent: "center"
                   }}>
                     <img src={original.dataUrl} alt="original" style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} />
                   </div>
-                  <p style={{ fontSize: 11, color: "#4a4a48", marginTop: 8, fontFamily: "'DM Mono', monospace", lineHeight: 1.6 }}>
+                  <p style={{ fontSize: "clamp(10px, 2.5vw, 11px)", color: "#6b6b66", marginTop: 8, fontFamily: "'DM Mono', monospace", lineHeight: 1.6 }}>
                     {original.width}×{original.height}px<br />{original.sizeKB} KB
                   </p>
                 </div>
 
-                <div style={{ color: "#8a8a84", fontSize: 18 }}>→</div>
+                <div style={{ color: "#8a8a84", fontSize: "clamp(16px, 4vw, 18px)" }}>→</div>
 
                 <div>
-                  <p style={{ fontSize: 11, color: "#4a4a48", marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.06em" }}>After</p>
+                  <p style={{ fontSize: "clamp(10px, 2.5vw, 11px)", color: "#6b6b66", marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.06em" }}>After</p>
                   <div style={{
-                    border: "1px solid #d4d4ce", borderRadius: 10,
-                    width: 120, height: 120, overflow: "hidden",
+                    border: "1px solid #d4d4ce", borderRadius: "clamp(8px, 2vw, 10px)",
+                    width: "clamp(100px, 25vw, 120px)", height: "clamp(100px, 25vw, 120px)", overflow: "hidden",
                     background: "#f5f5f3", display: "flex", alignItems: "center", justifyContent: "center"
                   }}>
                     <img src={output.dataUrl} alt="output" style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} />
                   </div>
-                  <p style={{ fontSize: 11, color: "#4a4a48", marginTop: 8, fontFamily: "'DM Mono', monospace", lineHeight: 1.6 }}>
+                  <p style={{ fontSize: "clamp(10px, 2.5vw, 11px)", color: "#6b6b66", marginTop: 8, fontFamily: "'DM Mono', monospace", lineHeight: 1.6 }}>
                     {output.width}×{output.height}px<br />{output.sizeKB} KB
                   </p>
                 </div>
+              </div>
 
-                <div style={{ flex: 1, minWidth: 150 }}>
-                  <div style={{
-                    display: "inline-flex", alignItems: "center", gap: 6,
-                    padding: "7px 12px", borderRadius: 8, marginBottom: 14,
-                    background: output.withinTarget ? "#f0f7f4" : "#fffbeb",
-                    color: output.withinTarget ? "#2d6a4f" : "#92400e",
-                    fontSize: 13,
-                  }}>
-                    {output.withinTarget
-                      ? <><CheckCircle size={14} /> Within target</>
-                      : <><AlertCircle size={14} /> Best: {output.sizeKB} KB</>
-                    }
-                  </div>
-
-                  <button
-                    onClick={download}
-                    style={{
-                      display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-                      padding: "10px 16px", width: "100%",
-                      background: "#ffffff", border: "1px solid #d0d0ca",
-                      borderRadius: 10, fontSize: 14, fontWeight: 500,
-                      cursor: "pointer", color: "#1a1a18",
-                    }}
-                  >
-                    <Download size={15} /> Download photo
-                  </button>
-
-                  <button
-                    onClick={() => fileInputRef.current?.click()}
-                    style={{
-                      marginTop: 8, width: "100%", background: "none", border: "none",
-                      fontSize: 13, color: "#4a4a48", cursor: "pointer", padding: "6px 0",
-                    }}
-                  >
-                    Use a different photo
-                  </button>
+              <div style={{ marginTop: "clamp(20px, 5vw, 24px)" }}>
+                <div style={{
+                  display: "inline-flex", alignItems: "center", gap: 6,
+                  padding: "6px 12px", borderRadius: "clamp(6px, 1.5vw, 8px)", marginBottom: "clamp(12px, 3vw, 14px)",
+                  background: output.withinTarget ? "#f0f7f4" : "#fffbeb",
+                  color: output.withinTarget ? "#2d6a4f" : "#92400e",
+                  fontSize: "clamp(12px, 3vw, 13px)",
+                }}>
+                  {output.withinTarget
+                    ? <><CheckCircle size={14} /> Within target</>
+                    : <><AlertCircle size={14} /> Best: {output.sizeKB} KB</>
+                  }
                 </div>
+
+                <button
+                  onClick={download}
+                  style={{
+                    display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+                    padding: "clamp(9px, 2.5vw, 10px) clamp(14px, 3.5vw, 16px)", width: "100%",
+                    background: "#ffffff", border: "1px solid #8a8a84",
+                    borderRadius: "clamp(8px, 2vw, 10px)", fontSize: "clamp(13px, 3vw, 14px)", fontWeight: 500,
+                    cursor: "pointer", color: "#1a1a18",
+                  }}
+                >
+                  <Download size={15} /> Download photo
+                </button>
+
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  style={{
+                    marginTop: 8, width: "100%", background: "none", border: "none",
+                    fontSize: "clamp(12px, 3vw, 13px)", color: "#6b6b66", cursor: "pointer", padding: "6px 0",
+                  }}
+                >
+                  Use a different photo
+                </button>
               </div>
             </div>
           )}
